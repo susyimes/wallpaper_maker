@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 当 View 处于 selected=true 时显示光圈样式 -->
+    <item android:drawable="@drawable/bg_selected_ring_trans" android:state_selected="true" />
+    <!-- 默认状态下，不显示光圈，可以是透明或者不设置背景 -->
+    <item android:drawable="@drawable/bg_selected_ring_trans" android:state_selected="false"/>
+</selector>

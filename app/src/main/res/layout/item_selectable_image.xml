@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fl_item_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    >
+
+    <!-- 显示实际内容的图片 -->
+    <ImageView
+        android:id="@+id/iv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:padding="2dp"
+        android:background="@drawable/bg_image_selector"
+        android:scaleType="fitCenter" />
+
+    <!-- 一个覆盖在上方的光圈，用来表示选中状态，可以是shape或图片 -->
+<!--    <View-->
+<!--        android:id="@+id/view_selected_ring"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:visibility="gone"-->
+<!--        android:background="@drawable/bg_selected_ring" />-->
+
+</FrameLayout>
