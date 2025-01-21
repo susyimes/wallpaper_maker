@@ -28,6 +28,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
@@ -43,7 +44,7 @@ class MakerActivity : AppCompatActivity() {
     private val REQUEST_CHOOSE_IMAGE = 1002
     private val REQUEST_CHOOSE_IMAGE_BG = 1001
     private var imageUri: Uri? = null
-    private var loadingLayout : LinearLayout? = null
+    private var loadingLayout : CardView? = null
     private var rootContainer: FrameLayout? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +67,8 @@ class MakerActivity : AppCompatActivity() {
         }
         findViewById<Button>(R.id.btn_save_result).setOnClickListener {
             if (bgView!=null){
-                saveBgViewArea()
+                //saveBgViewArea()
+                saveRootContainerClipped()
             }else{
                 saveRootContainerClipped()
             }
@@ -239,7 +241,6 @@ class MakerActivity : AppCompatActivity() {
     }
 
     private fun getViewTransformedBounds(child: View): RectF {
-        // 原始4顶点 (以View自身左上角为(0,0))
         val points = floatArrayOf(
             0f, 0f,
             child.width.toFloat(), 0f,
@@ -247,20 +248,11 @@ class MakerActivity : AppCompatActivity() {
             0f, child.height.toFloat()
         )
 
-        // 构建一个用于合并位移、缩放、旋转的 Matrix
-        val matrix = Matrix()
+        val matrix = Matrix(child.matrix) // 拷贝child的matrix
+        matrix.postTranslate(child.x, child.y) // 平移
 
-        // step1: 先把左上角平移到父容器坐标 (child.x, child.y)
-        matrix.postTranslate(child.x, child.y)
-
-        // step2: 再与 child 自身的 matrix 合并
-        // 这里面包含了 pivot, rotate, scaleX, scaleY 等变换
-        matrix.postConcat(child.matrix)
-
-        // 将 points 映射到父容器坐标系
         matrix.mapPoints(points)
 
-        // 从变换后的顶点，计算最小/最大 x,y
         var minX = Float.MAX_VALUE
         var minY = Float.MAX_VALUE
         var maxX = Float.MIN_VALUE
@@ -277,7 +269,6 @@ class MakerActivity : AppCompatActivity() {
         return RectF(minX, minY, maxX, maxY)
     }
 
-
     private fun calculateChildrenBounds(root: ViewGroup): RectF {
         var minX = Float.MAX_VALUE
         var minY = Float.MAX_VALUE
@@ -288,7 +279,6 @@ class MakerActivity : AppCompatActivity() {
             val child = root.getChildAt(i)
             if (child.visibility != View.VISIBLE) continue
 
-            // 得到变换后矩形
             val bounds = getViewTransformedBounds(child)
             if (bounds.left < minX) minX = bounds.left
             if (bounds.top < minY) minY = bounds.top
@@ -297,11 +287,11 @@ class MakerActivity : AppCompatActivity() {
         }
 
         if (minX == Float.MAX_VALUE) {
-            // 没有可见子View
             return RectF(0f, 0f, 0f, 0f)
         }
         return RectF(minX, minY, maxX, maxY)
     }
+
 
     private fun saveRootContainerClipped() {
         val rootContainer = findViewById<FrameLayout>(R.id.root_container)

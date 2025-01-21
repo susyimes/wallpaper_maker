@@ -6,138 +6,135 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
-
-
-
-
-<!--    &lt;!&ndash; 原图展示 &ndash;&gt;-->
-<!--    <ImageView-->
-<!--        android:id="@+id/imageViewOrigin"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-
-<!--        android:adjustViewBounds="true"-->
-<!--        android:scaleType="centerInside"-->
-<!--        app:layout_constraintDimensionRatio="12:9"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/textViewInstruction"-->
-<!--        app:layout_constraintWidth_min="0dp" />-->
-
-<!--    &lt;!&ndash; 分割后图像展示 &ndash;&gt;-->
-<!--    <ImageView-->
-<!--        android:id="@+id/imageViewResult"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-
-<!--        android:adjustViewBounds="true"-->
-<!--        android:scaleType="centerInside"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintDimensionRatio="12:9"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/imageViewOrigin"-->
-<!--        app:layout_constraintWidth_min="0dp" />-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/previous_step"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="上一步" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            />
-        <Button
-            android:id="@+id/restart"
-            android:layout_width="0dp"
-
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="清空页面" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_gravity="bottom|center_horizontal"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_add_image"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="添加主体" />
-
-        <Button
-            android:id="@+id/btn_add_bg"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="添加背景" />
-
-        <Button
-            android:id="@+id/btn_save_result"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="保存页面" />
-    </LinearLayout>
+    <!-- 主要编辑区域 -->
     <FrameLayout
         android:id="@+id/root_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:context=".MainActivity">
-
-        <!-- 可以在此容器内动态添加可拖拽、缩放的 ImageView -->
-
-
     </FrameLayout>
+    <!-- 顶部操作栏 -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/top_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/previous_step"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上一步"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:icon="@android:drawable/ic_menu_revert"/>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/restart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清空页面"
+                android:layout_marginRight="16dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:icon="@android:drawable/ic_menu_delete"/>
+        </LinearLayout>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+
+    <!-- 底部操作栏 -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bottom_actions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="16dp"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_image"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:text="添加主体"
+                app:icon="@android:drawable/ic_menu_camera"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_bg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:text="添加背景"
+                app:icon="@android:drawable/ic_menu_gallery"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save_result"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:text="保存页面"
+                app:icon="@android:drawable/ic_menu_save"/>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- 加载提示 -->
+    <androidx.cardview.widget.CardView
         android:id="@+id/loading_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
         android:visibility="gone"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="主体提取中..." />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="主体提取中..."
+                android:textColor="?android:attr/textColorPrimary"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
